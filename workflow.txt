@@ -1,0 +1,20 @@
+@Configuration-annotation needed for spring to find and register beans
+
+Workflow of my thinking process to making this app:
+
+1)We are building around the HOT topic of websockets, so firstly we have to set  up the configuration file
+for websocket by registering the endpoints and adding a broker.
+
+            a)Endpoints->user connect to this endpoint using SockJS and acts as the backup option if not
+                         supported by browser
+            b)Broker->In-memory message broker for topics. Any message sent to this will be forwarded to
+                      users.
+
+2)Using Redis to configure with DragonDB(supports Redis):
+
+            a)Template->This template is format containing the following data:
+                        i)Serilizer for Keys->Readable Strings
+                        ii)Jackson2Json for values->Stores in JSON format
+            b)Message Listener container-> Listens to the messges published on Redis channels
+                        i)Factory->Connects to redis server
+                        ii)Handles incoming Messages
